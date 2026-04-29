@@ -1,0 +1,112 @@
+[
+  {
+    "id": "lesson-001",
+    "title": "Support and Resistance",
+    "topic": "technical-analysis",
+    "short_text": "Support and resistance are areas where price has previously attracted enough buyers or sellers to slow a move.",
+    "simple_explanation": "Think of support as a floor and resistance as a ceiling. Price can move through either one, but traders watch these areas because many decisions tend to happen there.",
+    "example": "If BTC repeatedly bounces near $60,000, that area may act as support. A trader may wait for confirmation instead of buying just because price touched the level.",
+    "image_query": "trading chart support resistance",
+    "visual": { "type": "gradient", "value": "support" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-002",
+    "title": "Candlestick Psychology",
+    "topic": "price-action",
+    "short_text": "A candle is not just a shape; it shows how buyers and sellers negotiated during one time period.",
+    "simple_explanation": "The body shows where price opened and closed. The wicks show where price tried to go but could not hold. Long wicks often reveal rejection.",
+    "example": "A long lower wick after a selloff can show sellers pushed price down, but buyers stepped in before the candle closed.",
+    "image_query": "candlestick chart psychology",
+    "visual": { "type": "gradient", "value": "candlestick" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-003",
+    "title": "Trendlines",
+    "topic": "technical-analysis",
+    "short_text": "A trendline connects meaningful swing points to help visualize the current direction and rhythm of price.",
+    "simple_explanation": "A trendline is a guide, not a wall. It helps you see whether price is still respecting a direction or starting to change character.",
+    "example": "In an uptrend, connecting higher lows can reveal a rising support guide. A break below it may be a reason to reassess, not an automatic short signal.",
+    "image_query": "trading trendline chart",
+    "visual": { "type": "gradient", "value": "trend" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-004",
+    "title": "Liquidity",
+    "topic": "market-mechanics",
+    "short_text": "Liquidity often sits near obvious highs, lows, and stop areas where many traders place orders.",
+    "simple_explanation": "Markets need orders to move. Areas with clustered stops or pending orders can attract price because larger participants may find enough volume there.",
+    "example": "If many traders short below a visible range low, price may dip under that low, trigger stops, and then reverse back into the range.",
+    "image_query": "trading liquidity zones",
+    "visual": { "type": "gradient", "value": "liquidity" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-005",
+    "title": "Risk Management",
+    "topic": "risk-management",
+    "short_text": "Risk management decides how much you can lose before the market proves your idea wrong.",
+    "simple_explanation": "A good setup can still fail. Risk management keeps one failed idea from damaging the account or your decision-making.",
+    "example": "If an account is $5,000 and risk per trade is 1%, the planned loss is $50. Position size should be built around that limit.",
+    "image_query": "trading risk management dashboard",
+    "visual": { "type": "gradient", "value": "risk" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-006",
+    "title": "Stop Loss",
+    "topic": "risk-management",
+    "short_text": "A stop loss is a planned exit that defines where a trade idea is no longer valid.",
+    "simple_explanation": "A stop is not a punishment. It is the line that says, 'My reason for entering is no longer true.'",
+    "example": "If you buy after a higher low forms, a stop might sit below that higher low because a break there can weaken the setup.",
+    "image_query": "trading stop loss order",
+    "visual": { "type": "gradient", "value": "stop" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-007",
+    "title": "Market Structure",
+    "topic": "price-action",
+    "short_text": "Market structure describes the sequence of highs and lows that reveals trend, range, or transition.",
+    "simple_explanation": "Higher highs and higher lows suggest an uptrend. Lower highs and lower lows suggest a downtrend. Mixed swings often point to a range.",
+    "example": "If ETH stops making higher highs and then breaks a prior higher low, traders may treat it as a possible structure shift.",
+    "image_query": "market structure trading chart",
+    "visual": { "type": "gradient", "value": "structure" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-008",
+    "title": "Breakout vs Fakeout",
+    "topic": "technical-analysis",
+    "short_text": "A breakout becomes more useful when price holds beyond a level; a fakeout fails and returns back inside the prior area.",
+    "simple_explanation": "Price crossing a line is not enough. Traders often look for acceptance, volume, or a retest to reduce the chance of chasing a false move.",
+    "example": "If price breaks above resistance but quickly closes back below it, the move may be a fakeout rather than a clean breakout.",
+    "image_query": "trading breakout fakeout chart",
+    "visual": { "type": "gradient", "value": "breakout" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-009",
+    "title": "Trading Psychology",
+    "topic": "psychology",
+    "short_text": "Trading psychology is the ability to follow a plan when fear, greed, boredom, or revenge urges appear.",
+    "simple_explanation": "The market can pressure you into impulsive decisions. A written plan reduces the need to decide while emotions are loud.",
+    "example": "After two losses, a trader may want to double size to recover quickly. A plan can prevent revenge trading and protect the account.",
+    "image_query": "trading psychology focus",
+    "visual": { "type": "gradient", "value": "psychology" },
+    "source": "sample"
+  },
+  {
+    "id": "lesson-010",
+    "title": "Position Sizing",
+    "topic": "risk-management",
+    "short_text": "Position sizing turns a trade idea into a controlled amount of exposure based on account size, stop distance, and risk limit.",
+    "simple_explanation": "The wider the stop, the smaller the position usually needs to be if your risk amount stays fixed.",
+    "example": "If you risk $100 and the stop is $2 away from entry, the position is 50 units before fees and slippage are considered.",
+    "image_query": "trading position sizing calculator",
+    "visual": { "type": "gradient", "value": "sizing" },
+    "source": "sample"
+  }
+]

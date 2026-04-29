@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Trading Reels AI turns licensed trading book insights into short, premium educational reels."
+    />
+    <title>Trading Reels AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="topbar" aria-label="Product header">
+      <a class="brand" href="#top" aria-label="Trading Reels AI home">
+        <span class="brand-mark">TR</span>
+        <span>
+          <strong>Trading Reels AI</strong>
+          <small>Book-led trading micro-lessons</small>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="Primary actions">
+        <button class="ghost-button" id="creditsButton" type="button">Credits</button>
+        <button class="ghost-button" id="savedButton" type="button">Saved <span id="savedCount">0</span></button>
+      </nav>
+    </header>
+
+    <main id="top" class="reel-feed" aria-live="polite">
+      <section class="loading-state" id="loadingState">
+        <div class="loader-card">
+          <span class="eyebrow">Loading lessons</span>
+          <h1>Preparing your trading reel deck.</h1>
+          <p>Local book-first content. AI explanations stay as helpers, not the source of truth.</p>
+        </div>
+      </section>
+    </main>
+
+    <aside class="rail" aria-label="Lesson progress" id="progressRail"></aside>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span></span>
+      Scroll to learn
+    </div>
+
+    <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+    <section class="bottom-sheet" id="bottomSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-header">
+        <p class="eyebrow" id="sheetKicker">Insight</p>
+        <h2 id="sheetTitle">Explanation</h2>
+        <button class="icon-button" id="closeSheet" type="button" aria-label="Close panel">Close</button>
+      </div>
+      <div class="sheet-body" id="sheetBody"></div>
+    </section>
+
+    <template id="reelTemplate">
+      <article class="reel" tabindex="-1">
+        <div class="visual-orb" aria-hidden="true"></div>
+        <div class="market-grid" aria-hidden="true"></div>
+        <div class="reel-card">
+          <div class="card-topline">
+            <span class="topic-pill"></span>
+            <span class="lesson-count"></span>
+          </div>
+          <div>
+            <h1 class="lesson-title"></h1>
+            <p class="lesson-text"></p>
+          </div>
+          <div class="signal-strip" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="card-actions">
+            <button class="primary-button explain-button" type="button">Explain simpler</button>
+            <button class="secondary-button example-button" type="button">Example</button>
+            <button class="save-button" type="button" aria-pressed="false">Save</button>
+          </div>
+          <p class="disclaimer">Educational content only. Not financial advice.</p>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>

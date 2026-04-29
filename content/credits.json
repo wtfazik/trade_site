@@ -1,0 +1,20 @@
+{
+  "policy": "MVP uses CSS gradients and built-in visuals only. Future Pexels or Pixabay assets must be tracked here before release.",
+  "sources": [
+    {
+      "name": "Trading Reels AI sample lessons",
+      "type": "internal-sample-content",
+      "note": "Original MVP sample lessons written for interface testing. Replace active content with licensed book-derived lessons when ready."
+    },
+    {
+      "name": "CSS gradient visuals",
+      "type": "generated-interface-visual",
+      "note": "No remote images are used in the MVP."
+    },
+    {
+      "name": "Future Pexels/Pixabay media",
+      "type": "placeholder",
+      "note": "Store author, source URL, license notes, and asset usage here before using external media."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+name = "trading-reels-ai-worker"
+main = "src/index.js"
+compatibility_date = "2026-04-30"
+
+# Add secrets later with Cloudflare Wrangler, never in this file:
+# wrangler secret put GEMINI_API_KEY
+# wrangler secret put OPENROUTER_API_KEY
+# wrangler secret put PEXELS_API_KEY
+# wrangler secret put PIXABAY_API_KEY
