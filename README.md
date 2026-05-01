@@ -1,13 +1,14 @@
 # Trading Reels AI
 
-Trading Reels AI is a premium Reels/TikTok-style educational trading platform. The main content source is your own licensed trading books. AI is only an explanation helper that can simplify an existing lesson or provide examples.
+Trading Reels AI is a lightweight, scroll-first trading education app. It turns the user's local licensed trading books into short Reels-style lessons, then uses optional AI and media helpers around that source content.
 
-The MVP is intentionally lightweight:
+The MVP stays simple:
 
-- Static frontend in plain HTML, CSS, and JavaScript.
-- Local JSON lessons.
-- Cloudflare Worker placeholder for future AI calls.
-- Local PDF extraction pipeline for draft lesson generation.
+- Static frontend in `frontend/`.
+- Book-derived JSON lessons in `content/`.
+- Local-only PDFs in `content/books/`.
+- Optional media metadata from Pexels/Pixabay in `content/media.json`.
+- Cloudflare Worker placeholder in `worker/`.
 
 ## Project Structure
 
@@ -17,38 +18,47 @@ trade_site/
     index.html
     style.css
     app.js
+    data/
+      lessons.json
+      media.json
+      credits.json
+      book_images/
   content/
-    books/
-      .gitkeep
-    extracted/
-      .gitkeep
-    lessons.sample.json
+    books/.gitkeep
+    extracted/.gitkeep
+    credits.json
+    media.json
     lessons.json
     lessons.generated.json
-    credits.json
+    lessons.generated.deep.json
+    lessons.sample.json
   tools/
+    deep_pdf_to_reels.py
+    extract_book_images.py
+    fetch_media.py
+    match_images_to_lessons.py
+    optimize_book_images.py
     pdf_to_lessons.py
+    prepare_pages_data.py
+    generate_chart_configs.py
+    review_lessons.py
   worker/
-    src/
-      index.js
+    src/index.js
     wrangler.toml
-  AGENTS.md
   README.md
+  AGENTS.md
   requirements.txt
-  .gitignore
 ```
 
-## Run Frontend Locally
+## Local Test
 
-The frontend is static and can be opened directly at `frontend/index.html`.
-
-If your browser blocks local JSON loading from `file://`, run a tiny local server from the repo root:
+Run from the repo root:
 
 ```bash
 python -m http.server 8080
 ```
 
-Then open:
+Open:
 
 ```text
 http://localhost:8080/frontend/
@@ -62,66 +72,131 @@ Put your licensed PDF books in:
 content/books/
 ```
 
-Books are local-only and ignored by Git. Do not commit PDFs, ZIPs, extracted text, uploads, or secrets.
+Books are local-only. Do not commit PDFs, ZIPs, uploads, extracted text, or secrets.
 
-## Generate Lessons From Books
+## Generate Deep Lessons
 
-Install Python tool dependencies:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Generate draft lessons:
+Generate curated book-derived reels:
 
 ```bash
-python tools/pdf_to_lessons.py
+python tools/deep_pdf_to_reels.py
 ```
 
-The script writes:
+This writes:
 
 ```text
-content/lessons.generated.json
+content/lessons.generated.deep.json
+content/lessons.json
 ```
 
-Review generated lessons manually. When ready, copy edited lessons into `content/lessons.json`, which is the active frontend content file.
+`content/lessons.json` is the source lesson file. `frontend/data/lessons.json` is the deployment-ready runtime copy used by Cloudflare Pages.
 
-## Cloudflare Pages Later
+## Prepare Pages Data
 
-Deploy the static frontend from the `frontend/` folder. Keep `content/` available as static assets or copy the public JSON content into the Pages output during deployment.
+Generate the static runtime bundle for Cloudflare Pages:
 
-Suggested future Pages settings:
+```bash
+python tools/prepare_pages_data.py
+python tools/generate_chart_configs.py
+```
 
-- Build command: none for MVP.
-- Output directory: `frontend` if only deploying frontend files.
-- Add a deployment step later if you want to publish `content/lessons.json` beside the frontend.
+This writes safe frontend runtime data to:
 
-## Cloudflare Workers Later
+```text
+frontend/data/lessons.json
+frontend/data/media.json
+frontend/data/credits.json
+frontend/data/book_images/
+```
 
-The Worker lives in `worker/` and currently exposes:
+Only book images referenced by active lessons are copied into `frontend/data/book_images/`.
+
+## Fetch Media
+
+Media fetching is optional. API keys must come from environment variables only. Never put keys in frontend code, JSON files, docs, `wrangler.toml`, or commits.
+
+PowerShell:
+
+```powershell
+$env:PEXELS_API_KEY="your_key"
+$env:PIXABAY_API_KEY="your_key"
+python tools/fetch_media.py
+```
+
+Bash:
+
+```bash
+PEXELS_API_KEY="your_key" PIXABAY_API_KEY="your_key" python tools/fetch_media.py
+```
+
+If keys are missing, the script writes a safe empty fallback:
+
+```json
+[]
+```
+
+Media metadata is stored in:
+
+```text
+content/media.json
+```
+
+The app falls back to local CSS market visuals when media is missing.
+
+## Extract Book Images
+
+Extract embedded chart-like images from local PDFs:
+
+```bash
+python tools/extract_book_images.py
+python tools/optimize_book_images.py
+python tools/match_images_to_lessons.py
+```
+
+Images are written to:
+
+```text
+content/extracted/book_images/
+```
+
+Safe metadata is written to:
+
+```text
+content/extracted/book_images.json
+```
+
+The frontend visual priority is:
+
+1. `lesson.book_media` from extracted book images
+2. `content/media.json` Pexels/Pixabay metadata
+3. CSS/SVG trading visuals
+
+Extracted image files are ignored by Git by default.
+
+## Review Lessons
+
+Run quality checks for lesson language, missing fields, forbidden secret-like strings, and oversized cards:
+
+```bash
+python tools/review_lessons.py
+```
+
+## Worker Placeholder
+
+The Worker exposes:
 
 - `GET /health`
 - `POST /api/explain`
+- `POST /api/market-candles`
+- `GET /api/media-status`
 
-Run locally later with Wrangler:
-
-```bash
-cd worker
-wrangler dev
-```
-
-Deploy later with:
-
-```bash
-cd worker
-wrangler deploy
-```
-
-## API Keys And Secrets
-
-Never put API keys in frontend files, source files, JSON files, or `wrangler.toml`.
-
-Use Cloudflare Secrets later:
+Future secrets belong in Cloudflare Secrets:
 
 ```bash
 cd worker
@@ -129,36 +204,158 @@ wrangler secret put GEMINI_API_KEY
 wrangler secret put OPENROUTER_API_KEY
 wrangler secret put PEXELS_API_KEY
 wrangler secret put PIXABAY_API_KEY
+wrangler secret put ALPHA_VANTAGE_API_KEY
+wrangler secret put TWELVE_DATA_API_KEY
 ```
 
-The Worker code references these names only as future integration points.
-
-## Safety Rules
-
-- Never commit books or PDFs.
-- Never commit `.env` files or API keys.
-- Keep `content/books/` and `content/extracted/` local-only.
-- AI explanations must support book-derived content, not replace it.
-- Every visible UI button must work or be hidden.
-- Keep the MVP lightweight until a heavier stack is explicitly needed.
-
-## Commit Safe Files
-
-Before committing, inspect the worktree:
+Deploy the Worker later with:
 
 ```bash
-git status --short
+cd worker
+wrangler deploy
 ```
 
-Safe files are source code, docs, sample JSON, reviewed public lesson JSON, and `.gitkeep` placeholders. Do not commit local books, PDFs, ZIPs, extracted text, uploads, `.env` files, credential files, or API keys.
+Connect the static frontend to a deployed Worker by defining the API base before `frontend/app.js` loads:
 
-## Current MVP Behavior
+```html
+<script>
+window.TRADING_REELS_API_BASE = "https://your-worker.your-subdomain.workers.dev";
+</script>
+```
 
-- Fullscreen vertical scroll-snap reels.
-- Premium dark glass UI with CSS-only visuals.
-- `Explain simpler` opens a local explanation sheet and is ready for a future Worker call.
-- `Example` opens a concrete example sheet.
-- `Save` stores lesson IDs in `localStorage` and updates button state.
-- `Credits` shows media/source policy from `content/credits.json`.
-- `Saved` shows saved lessons.
-- ArrowDown and ArrowUp navigate between reels.
+If `TRADING_REELS_API_BASE` is not set, the frontend uses local Russian fallback explanations.
+
+## Optional Market Data
+
+Market candles are optional and always go through the Worker. The frontend never calls Alpha Vantage or Twelve Data directly and never stores API keys.
+
+Add market-data secrets in Cloudflare:
+
+```bash
+cd worker
+wrangler secret put ALPHA_VANTAGE_API_KEY
+wrangler secret put TWELVE_DATA_API_KEY
+wrangler deploy
+```
+
+Connect the frontend to the Worker before `frontend/app.js` loads:
+
+```html
+<script>
+window.TRADING_REELS_API_BASE = "https://your-worker.workers.dev";
+</script>
+```
+
+The chart modal defaults to the educational/book chart. If `Market` is selected, the frontend calls `POST /api/market-candles`. The Worker tries Twelve Data first, then Alpha Vantage, then returns a safe demo fallback. Without a Worker or API keys, the app stays on educational demo charts.
+
+For local testing, run the static frontend and Worker separately. On `localhost`, the frontend automatically tries `http://localhost:8787` when `TRADING_REELS_API_BASE` is not set.
+
+Terminal 1:
+
+```bash
+python -m http.server 8080
+```
+
+Terminal 2:
+
+```bash
+cd worker
+wrangler dev
+```
+
+For local Worker secrets, use Wrangler secrets or a local `.dev.vars` file that is ignored by Git:
+
+```text
+ALPHA_VANTAGE_API_KEY=your_key
+TWELVE_DATA_API_KEY=your_key
+```
+
+Then open:
+
+```text
+http://localhost:8080/frontend/
+```
+
+## Publish Frontend to Cloudflare Pages
+
+Cloudflare Pages settings:
+
+```text
+Framework preset: None
+Build command: empty
+Build output directory: frontend
+Production branch: main
+```
+
+The deployed static frontend uses `frontend/data/` at runtime. It works without a Worker by using local lesson data, local/book images, CSS visuals, local explanation fallback, and demo educational charts.
+
+AI explanations and market-data candles require the optional Worker.
+
+## Optional Worker Deploy
+
+Set secrets with Wrangler. Do not put real keys in frontend files, docs, JSON, or `wrangler.toml`.
+
+```bash
+cd worker
+wrangler secret put GEMINI_API_KEY
+wrangler secret put OPENROUTER_API_KEY
+wrangler secret put ALPHA_VANTAGE_API_KEY
+wrangler secret put TWELVE_DATA_API_KEY
+wrangler deploy
+```
+
+If you deploy the Worker, configure the frontend API base before `frontend/app.js` loads:
+
+```html
+<script>
+window.TRADING_REELS_API_BASE = "https://your-worker.your-subdomain.workers.dev";
+</script>
+```
+
+## Important
+
+Never commit:
+
+- API keys
+- `.env`
+- `.env.*`
+- `.dev.vars`
+- PDFs
+- ZIPs
+- `content/books/*`
+- `content/extracted/*`
+- `content/extracted/book_images/*`
+- raw private book files
+- `content/uploads/*`
+
+Be careful with:
+
+- `content/lessons.generated.deep.json`
+- `content/lessons.json`
+- `content/media.json`
+- `content/extracted/book_images.json`
+
+They may contain book-derived educational content or external asset URLs. Review them before committing.
+
+## Pre-Commit Checks
+
+```bash
+python -m json.tool content/lessons.json
+python -m json.tool frontend/data/lessons.json
+python -m json.tool frontend/data/media.json
+python -m json.tool frontend/data/credits.json
+python -m json.tool content/credits.json
+python -m json.tool content/media.json
+python -m py_compile tools/deep_pdf_to_reels.py
+python -m py_compile tools/fetch_media.py
+python -m py_compile tools/extract_book_images.py
+python -m py_compile tools/match_images_to_lessons.py
+python -m py_compile tools/optimize_book_images.py
+python -m py_compile tools/review_lessons.py
+python -m py_compile tools/prepare_pages_data.py
+python -m py_compile tools/generate_chart_configs.py
+python tools/review_lessons.py
+node --check frontend/app.js
+node --check worker/src/index.js
+git status --short
+```

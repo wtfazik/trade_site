@@ -1,5 +1,7 @@
 .env
 .env.*
+.dev.vars
+.dev.vars.*
 *.key
 *.pem
 credentials.json
@@ -11,6 +13,8 @@ build/
 
 content/books/*
 content/extracted/*
+content/extracted/book_images/*
+content/extracted/book_thumbs/*
 content/uploads/*
 *.pdf
 *.zip
@@ -20,3 +24,5 @@ __pycache__/
 
 !content/books/.gitkeep
 !content/extracted/.gitkeep
+!content/extracted/book_images.json
+!content/extracted/book_image_matches.json

@@ -18,8 +18,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-001.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-001.png",
+      "url": "./data/book_images/book-img-001.png",
       "source": "book-extracted"
     }
   },
@@ -42,8 +41,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-002.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-002.png",
+      "url": "./data/book_images/book-img-002.png",
       "source": "book-extracted"
     }
   },
@@ -66,8 +64,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-087.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-087.png",
+      "url": "./data/book_images/book-img-087.png",
       "source": "book-extracted"
     }
   },
@@ -90,8 +87,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-088.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-088.png",
+      "url": "./data/book_images/book-img-088.png",
       "source": "book-extracted"
     }
   },
@@ -114,8 +110,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-089.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-089.png",
+      "url": "./data/book_images/book-img-089.png",
       "source": "book-extracted"
     }
   },
@@ -138,8 +133,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-090.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-090.png",
+      "url": "./data/book_images/book-img-090.png",
       "source": "book-extracted"
     }
   },
@@ -162,8 +156,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-091.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-091.png",
+      "url": "./data/book_images/book-img-091.png",
       "source": "book-extracted"
     }
   },
@@ -186,8 +179,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-092.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-092.png",
+      "url": "./data/book_images/book-img-092.png",
       "source": "book-extracted"
     }
   },
@@ -210,8 +202,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-168.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-168.png",
+      "url": "./data/book_images/book-img-168.png",
       "source": "book-extracted"
     }
   },
@@ -234,8 +225,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-169.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-169.png",
+      "url": "./data/book_images/book-img-169.png",
       "source": "book-extracted"
     }
   },
@@ -258,8 +248,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-171.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-171.png",
+      "url": "./data/book_images/book-img-171.png",
       "source": "book-extracted"
     }
   },
@@ -282,8 +271,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-172.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-172.png",
+      "url": "./data/book_images/book-img-172.png",
       "source": "book-extracted"
     }
   },
@@ -306,8 +294,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-173.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-173.png",
+      "url": "./data/book_images/book-img-173.png",
       "source": "book-extracted"
     }
   },
@@ -330,8 +317,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-174.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-174.png",
+      "url": "./data/book_images/book-img-174.png",
       "source": "book-extracted"
     }
   },
@@ -354,8 +340,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-019.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-019.png",
+      "url": "./data/book_images/book-img-019.png",
       "source": "book-extracted"
     }
   },
@@ -378,8 +363,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-020.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-020.png",
+      "url": "./data/book_images/book-img-020.png",
       "source": "book-extracted"
     }
   },
@@ -402,8 +386,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-021.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-021.png",
+      "url": "./data/book_images/book-img-021.png",
       "source": "book-extracted"
     }
   },
@@ -426,8 +409,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-022.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-022.png",
+      "url": "./data/book_images/book-img-022.png",
       "source": "book-extracted"
     }
   },
@@ -450,8 +432,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-180.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-180.png",
+      "url": "./data/book_images/book-img-180.png",
       "source": "book-extracted"
     }
   },
@@ -474,8 +455,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-181.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-181.png",
+      "url": "./data/book_images/book-img-181.png",
       "source": "book-extracted"
     }
   },
@@ -498,8 +478,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-182.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-182.png",
+      "url": "./data/book_images/book-img-182.png",
       "source": "book-extracted"
     }
   },
@@ -522,8 +501,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-215.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-215.png",
+      "url": "./data/book_images/book-img-215.png",
       "source": "book-extracted"
     }
   },
@@ -546,8 +524,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-216.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-216.png",
+      "url": "./data/book_images/book-img-216.png",
       "source": "book-extracted"
     }
   },
@@ -570,8 +547,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-217.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-217.png",
+      "url": "./data/book_images/book-img-217.png",
       "source": "book-extracted"
     }
   },
@@ -594,8 +570,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-027.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-027.png",
+      "url": "./data/book_images/book-img-027.png",
       "source": "book-extracted"
     }
   },
@@ -618,8 +593,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-028.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-028.png",
+      "url": "./data/book_images/book-img-028.png",
       "source": "book-extracted"
     }
   },
@@ -642,8 +616,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-029.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-029.png",
+      "url": "./data/book_images/book-img-029.png",
       "source": "book-extracted"
     }
   },
@@ -666,8 +639,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-030.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-030.png",
+      "url": "./data/book_images/book-img-030.png",
       "source": "book-extracted"
     }
   },
@@ -690,8 +662,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-031.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-031.png",
+      "url": "./data/book_images/book-img-031.png",
       "source": "book-extracted"
     }
   },
@@ -714,8 +685,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-032.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-032.png",
+      "url": "./data/book_images/book-img-032.png",
       "source": "book-extracted"
     }
   },
@@ -738,8 +708,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-033.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-033.png",
+      "url": "./data/book_images/book-img-033.png",
       "source": "book-extracted"
     }
   },
@@ -762,8 +731,7 @@
     "confidence": "medium",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-034.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-034.png",
+      "url": "./data/book_images/book-img-034.png",
       "source": "book-extracted"
     }
   },
@@ -786,8 +754,7 @@
     "confidence": "high",
     "book_media": {
       "type": "image",
-      "url": "../content/extracted/book_images/book-img-035.png",
-      "thumbnail": "../content/extracted/book_thumbs/book-img-035.png",
+      "url": "./data/book_images/book-img-035.png",
       "source": "book-extracted"
     }
   }

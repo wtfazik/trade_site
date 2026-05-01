@@ -3,43 +3,48 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Trading Reels AI turns licensed trading book insights into short, premium educational reels."
-    />
+    <meta name="description" content="Trading Reels AI is a scroll-first trading education app powered by book-derived micro-lessons." />
     <title>Trading Reels AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
+    <div class="app-shell" aria-hidden="true">
+      <div class="ambient ambient-a"></div>
+      <div class="ambient ambient-b"></div>
+      <div class="dashboard-grid"></div>
+    </div>
 
-    <header class="topbar" aria-label="Product header">
+    <header class="app-header" aria-label="Trading Reels AI header">
       <a class="brand" href="#top" aria-label="Trading Reels AI home">
         <span class="brand-mark">TR</span>
         <span>
           <strong>Trading Reels AI</strong>
-          <small>Book-led trading micro-lessons</small>
+          <small>Scroll the market playbook</small>
         </span>
       </a>
-      <nav class="top-actions" aria-label="Primary actions">
+      <div class="session-meta" aria-label="Current session">
+        <span id="sessionModule">Module 01</span>
+        <strong id="sessionTitle">Price Action</strong>
+        <small id="viewedProgress">0 viewed</small>
+        <small id="aiStatus">Local mode</small>
+      </div>
+      <nav class="top-actions" aria-label="App actions">
+        <button class="ghost-button" id="pathButton" type="button">Path</button>
         <button class="ghost-button" id="creditsButton" type="button">Credits</button>
         <button class="ghost-button" id="savedButton" type="button">Saved <span id="savedCount">0</span></button>
       </nav>
     </header>
+    <div class="mobile-progress" aria-hidden="true"><span id="mobileProgressFill"></span></div>
 
     <main id="top" class="reel-feed" aria-live="polite">
       <section class="loading-state" id="loadingState">
-        <div class="loader-card">
-          <span class="eyebrow">Loading lessons</span>
-          <h1>Preparing your trading reel deck.</h1>
-          <p>Local book-first content. AI explanations stay as helpers, not the source of truth.</p>
+        <div class="terminal-card">
+          <span class="eyebrow">Initializing deck</span>
+          <h1>Loading trading reels.</h1>
+          <p>Reading active book-derived lessons and optional media metadata.</p>
         </div>
       </section>
     </main>
@@ -50,41 +55,113 @@
       <span></span>
       Scroll to learn
     </div>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
     <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
     <section class="bottom-sheet" id="bottomSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
       <div class="sheet-handle" aria-hidden="true"></div>
       <div class="sheet-header">
-        <p class="eyebrow" id="sheetKicker">Insight</p>
-        <h2 id="sheetTitle">Explanation</h2>
+        <div>
+          <p class="eyebrow" id="sheetKicker">Insight</p>
+          <h2 id="sheetTitle">Explanation</h2>
+        </div>
         <button class="icon-button" id="closeSheet" type="button" aria-label="Close panel">Close</button>
       </div>
       <div class="sheet-body" id="sheetBody"></div>
     </section>
 
+    <div class="chart-backdrop" id="chartBackdrop" hidden></div>
+    <section class="chart-modal" id="chartModal" role="dialog" aria-modal="true" aria-labelledby="chartTitle" hidden>
+      <div class="chart-modal-header">
+        <div>
+          <p class="eyebrow">Book chart</p>
+          <h2 id="chartTitle">Extracted chart</h2>
+        </div>
+        <button class="icon-button" id="closeChart" type="button" aria-label="Close chart">Close</button>
+      </div>
+      <div class="chart-tools" aria-label="Chart zoom controls">
+        <button class="ghost-button chart-mode active" id="educationalChart" type="button">Educational</button>
+        <button class="ghost-button chart-mode" id="marketChart" type="button">Market</button>
+        <span class="chart-status" id="chartStatus">Demo chart</span>
+        <button class="ghost-button" id="zoomOutChart" type="button">Zoom -</button>
+        <button class="ghost-button" id="resetChart" type="button">Reset</button>
+        <button class="ghost-button" id="zoomInChart" type="button">Zoom +</button>
+      </div>
+      <div class="chart-modal-body">
+        <img id="chartModalImage" src="" alt="Extracted book chart" />
+        <canvas class="market-canvas" id="marketCanvas" width="1000" height="560" hidden></canvas>
+      </div>
+    </section>
+
     <template id="reelTemplate">
       <article class="reel" tabindex="-1">
-        <div class="visual-orb" aria-hidden="true"></div>
-        <div class="market-grid" aria-hidden="true"></div>
-        <div class="reel-card">
-          <div class="card-topline">
-            <span class="topic-pill"></span>
+        <div class="media-layer" aria-hidden="true"></div>
+        <video class="media-video" muted loop playsinline preload="metadata" aria-hidden="true" hidden></video>
+        <div class="book-media-layer" aria-hidden="true">
+          <img class="book-media-image" src="" alt="" loading="lazy" />
+        </div>
+        <div class="book-ghost-layer" aria-hidden="true">
+          <img class="book-ghost-image" src="" alt="" loading="lazy" />
+        </div>
+        <div class="book-media-badge" hidden>BOOK IMAGE ACTIVE</div>
+        <div class="topic-gradient" aria-hidden="true"></div>
+        <div class="readability-layer" aria-hidden="true"></div>
+        <div class="chart-layer" aria-hidden="true">
+          <svg class="price-line" viewBox="0 0 900 420" preserveAspectRatio="none" focusable="false">
+            <path d="M0 275 C70 220 118 255 170 205 S270 116 350 172 S472 268 548 188 S685 84 762 128 S842 230 900 168" />
+          </svg>
+          <div class="liquidity-zone zone-top"></div>
+          <div class="liquidity-zone zone-bottom"></div>
+          <div class="sr-level sr-one" data-label="RESISTANCE"></div>
+          <div class="sr-level sr-two" data-label="SUPPORT"></div>
+          <div class="sweep-marker">SWEEP</div>
+          <div class="structure-label hh">HH</div>
+          <div class="structure-label hl">HL</div>
+          <div class="structure-label lh">LH</div>
+          <div class="risk-box"><span>SL</span></div>
+          <div class="breakout-arrow">BREAK</div>
+          <div class="focus-ring"></div>
+          <div class="candle-stack"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <section class="lesson-panel reel-content" aria-label="Trading reel lesson">
+          <div class="lesson-topline">
+            <div class="chip-row">
+              <span class="topic-pill"></span>
+              <span class="level-pill"></span>
+            </div>
             <span class="lesson-count"></span>
           </div>
-          <div>
+
+          <div class="lesson-copy">
+            <p class="deck-label">Trading concept</p>
+            <p class="lesson-hook"></p>
             <h1 class="lesson-title"></h1>
+            <p class="lesson-subtitle"></p>
+            <p class="key-idea"><span>Why it matters</span><strong></strong></p>
             <p class="lesson-text"></p>
           </div>
-          <div class="signal-strip" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
+
+          <button class="book-preview" type="button" hidden>
+            <img src="" alt="" loading="lazy" />
+            <span><strong>Source chart</strong><small>Open full chart</small></span>
+          </button>
+
+          <div class="market-strip" aria-hidden="true">
+            <span data-label="HTF Context" data-state="Check"></span>
+            <span data-label="Key Level" data-state="Found"></span>
+            <span data-label="Confirmation" data-state="Pending"></span>
           </div>
+
           <div class="card-actions">
-            <button class="primary-button explain-button" type="button">Explain simpler</button>
+            <button class="primary-button explain-button" type="button">Explain</button>
             <button class="secondary-button example-button" type="button">Example</button>
+            <button class="secondary-button checklist-button" type="button">Checklist</button>
             <button class="save-button" type="button" aria-pressed="false">Save</button>
           </div>
-          <p class="disclaimer">Educational content only. Not financial advice.</p>
-        </div>
+
+          <p class="disclaimer">Educational only. Not financial advice.</p>
+        </section>
       </article>
     </template>
 

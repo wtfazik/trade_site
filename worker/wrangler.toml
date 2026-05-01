@@ -7,3 +7,5 @@ compatibility_date = "2026-04-30"
 # wrangler secret put OPENROUTER_API_KEY
 # wrangler secret put PEXELS_API_KEY
 # wrangler secret put PIXABAY_API_KEY
+# wrangler secret put ALPHA_VANTAGE_API_KEY
+# wrangler secret put TWELVE_DATA_API_KEY

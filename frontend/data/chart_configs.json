@@ -1,0 +1,19 @@
+{
+  "default": "educational",
+  "symbols": [
+    "EUR/USD",
+    "BTC/USD",
+    "ETH/USD",
+    "XAU/USD",
+    "SPY"
+  ],
+  "intervals": [
+    "5min",
+    "15min",
+    "30min",
+    "1h",
+    "4h",
+    "1day"
+  ],
+  "fallback": "demo-chart"
+}
