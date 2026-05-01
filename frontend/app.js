@@ -34,7 +34,7 @@ const toast = document.querySelector("#toast");
 const LESSON_URLS = ["./data/lessons.json", "../content/lessons.json", "../content/lessons.sample.json"];
 const CREDIT_URLS = ["./data/credits.json", "../content/credits.json"];
 const MEDIA_URLS = ["./data/media.json", "../content/media.json"];
-const API_BASE = window.TRADING_REELS_API_BASE || localWorkerApiBase();
+let API_BASE = "";
 const SAVED_KEY = "trading-reels-ai:saved-lessons";
 const VIEWED_KEY = "trading-reels-ai:viewed-lessons";
 const MAX_CARD_TEXT = 260;
@@ -70,8 +70,20 @@ let chartScale = 1;
 let toastTimer = null;
 let currentChart = null;
 
-function localWorkerApiBase() {
+function localDevApiBase() {
   return ["localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://localhost:8787" : "";
+}
+
+function loadOptionalRuntimeConfig() {
+  if (window.TRADING_REELS_API_BASE) return Promise.resolve();
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "./config.js";
+    script.async = false;
+    script.onload = () => resolve();
+    script.onerror = () => resolve();
+    document.head.appendChild(script);
+  });
 }
 
 function getSavedLessons() {
@@ -107,6 +119,8 @@ async function loadJson(url) {
 }
 
 async function init() {
+  await loadOptionalRuntimeConfig();
+  API_BASE = window.TRADING_REELS_API_BASE || localDevApiBase();
   setSavedLessons(getSavedLessons());
   updateViewedProgress(getViewedLessons());
   aiStatus.textContent = API_BASE ? "AI online" : "Local mode";

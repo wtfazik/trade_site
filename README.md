@@ -8,7 +8,8 @@ The MVP stays simple:
 - Book-derived JSON lessons in `content/`.
 - Local-only PDFs in `content/books/`.
 - Optional media metadata from Pexels/Pixabay in `content/media.json`.
-- Cloudflare Worker placeholder in `worker/`.
+- Render-ready Express API in `backend/`.
+- Cloudflare Worker alternative in `worker/`.
 
 ## Project Structure
 
@@ -18,11 +19,16 @@ trade_site/
     index.html
     style.css
     app.js
+    config.example.js
     data/
       lessons.json
       media.json
       credits.json
       book_images/
+  backend/
+    package.json
+    server.js
+    README.md
   content/
     books/.gitkeep
     extracted/.gitkeep
@@ -95,11 +101,11 @@ content/lessons.generated.deep.json
 content/lessons.json
 ```
 
-`content/lessons.json` is the source lesson file. `frontend/data/lessons.json` is the deployment-ready runtime copy used by Cloudflare Pages.
+`content/lessons.json` is the source lesson file. `frontend/data/lessons.json` is the deployment-ready runtime copy used by Vercel.
 
-## Prepare Pages Data
+## Prepare Frontend Data
 
-Generate the static runtime bundle for Cloudflare Pages:
+Generate the static runtime bundle for Vercel:
 
 ```bash
 python tools/prepare_pages_data.py
@@ -187,7 +193,39 @@ Run quality checks for lesson language, missing fields, forbidden secret-like st
 python tools/review_lessons.py
 ```
 
-## Worker Placeholder
+## Render Backend
+
+The primary backend for this deployment plan is the Express API in `backend/`.
+
+Local API test:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+Endpoints:
+
+- `GET /health`
+- `POST /api/explain`
+- `POST /api/market-candles`
+- `GET /api/media-status`
+
+Secrets belong in Render environment variables only:
+
+```text
+GEMINI_API_KEY
+OPENROUTER_API_KEY
+ALPHA_VANTAGE_API_KEY
+TWELVE_DATA_API_KEY
+PEXELS_API_KEY
+PIXABAY_API_KEY
+```
+
+The backend uses Gemini first, OpenRouter second, and a safe Russian fallback when AI keys are missing or provider calls fail. Market candles use Twelve Data first, Alpha Vantage second, and demo fallback when market keys or providers fail.
+
+## Worker Alternative
 
 The Worker exposes:
 
@@ -196,7 +234,9 @@ The Worker exposes:
 - `POST /api/market-candles`
 - `GET /api/media-status`
 
-Future secrets belong in Cloudflare Secrets:
+The Cloudflare Worker remains in the repo as an alternative backend, but it is not the current deployment target.
+
+Worker secrets belong in Cloudflare Secrets:
 
 ```bash
 cd worker
@@ -227,28 +267,26 @@ If `TRADING_REELS_API_BASE` is not set, the frontend uses local Russian fallback
 
 ## Optional Market Data
 
-Market candles are optional and always go through the Worker. The frontend never calls Alpha Vantage or Twelve Data directly and never stores API keys.
+Market candles are optional and always go through the backend API. The frontend never calls Alpha Vantage or Twelve Data directly and never stores API keys.
 
-Add market-data secrets in Cloudflare:
+Add market-data secrets in Render:
 
-```bash
-cd worker
-wrangler secret put ALPHA_VANTAGE_API_KEY
-wrangler secret put TWELVE_DATA_API_KEY
-wrangler deploy
+```text
+ALPHA_VANTAGE_API_KEY
+TWELVE_DATA_API_KEY
 ```
 
-Connect the frontend to the Worker before `frontend/app.js` loads:
+Connect the frontend to the Render API by editing the public API base in `frontend/config.js`, or by injecting the same assignment before `frontend/app.js` loads:
 
 ```html
 <script>
-window.TRADING_REELS_API_BASE = "https://your-worker.workers.dev";
+window.TRADING_REELS_API_BASE = "https://your-render-service.onrender.com";
 </script>
 ```
 
-The chart modal defaults to the educational/book chart. If `Market` is selected, the frontend calls `POST /api/market-candles`. The Worker tries Twelve Data first, then Alpha Vantage, then returns a safe demo fallback. Without a Worker or API keys, the app stays on educational demo charts.
+The chart modal defaults to the educational/book chart. If `Market` is selected, the frontend calls `POST /api/market-candles`. The backend tries Twelve Data first, then Alpha Vantage, then returns a safe demo fallback. Without a backend or API keys, the app stays on educational demo charts.
 
-For local testing, run the static frontend and Worker separately. On `localhost`, the frontend automatically tries `http://localhost:8787` when `TRADING_REELS_API_BASE` is not set.
+For local testing, run the static frontend and backend separately. On `localhost`, the frontend automatically tries `http://localhost:8787` when `TRADING_REELS_API_BASE` is not set. To use the Express backend locally, set `frontend/config.js` to `http://localhost:3000`.
 
 Terminal 1:
 
@@ -259,15 +297,15 @@ python -m http.server 8080
 Terminal 2:
 
 ```bash
-cd worker
-wrangler dev
+cd backend
+npm install
+npm start
 ```
 
-For local Worker secrets, use Wrangler secrets or a local `.dev.vars` file that is ignored by Git:
+Optional local frontend API config in `frontend/config.js`:
 
 ```text
-ALPHA_VANTAGE_API_KEY=your_key
-TWELVE_DATA_API_KEY=your_key
+window.TRADING_REELS_API_BASE = "http://localhost:3000";
 ```
 
 Then open:
@@ -276,41 +314,56 @@ Then open:
 http://localhost:8080/frontend/
 ```
 
-## Publish Frontend to Cloudflare Pages
+## Deploy Frontend to Vercel
 
-Cloudflare Pages settings:
+Vercel settings:
 
 ```text
-Framework preset: None
-Build command: empty
-Build output directory: frontend
+Framework preset: Other
+Root Directory: .
+Build Command: empty
+Output Directory: frontend
+Install Command: empty
 Production branch: main
 ```
 
-The deployed static frontend uses `frontend/data/` at runtime. It works without a Worker by using local lesson data, local/book images, CSS visuals, local explanation fallback, and demo educational charts.
+`vercel.json` keeps `/` mapped to `frontend/index.html` when Vercel serves the static output. Vercel deploys automatically from GitHub after push.
 
-AI explanations and market-data candles require the optional Worker.
+The deployed static frontend uses `frontend/data/` at runtime. It works without the Render backend by using local lesson data, selected book images, CSS visuals, local explanation fallback, and demo educational charts.
 
-## Optional Worker Deploy
+AI explanations and market-data candles require the optional Render backend.
 
-Set secrets with Wrangler. Do not put real keys in frontend files, docs, JSON, or `wrangler.toml`.
+## Deploy Backend to Render
 
-```bash
-cd worker
-wrangler secret put GEMINI_API_KEY
-wrangler secret put OPENROUTER_API_KEY
-wrangler secret put ALPHA_VANTAGE_API_KEY
-wrangler secret put TWELVE_DATA_API_KEY
-wrangler deploy
+Render Web Service settings:
+
+```text
+Root Directory: backend
+Runtime: Node
+Build Command: npm install
+Start Command: npm start
 ```
 
-If you deploy the Worker, configure the frontend API base before `frontend/app.js` loads:
+Render environment variables:
+
+```text
+GEMINI_API_KEY
+OPENROUTER_API_KEY
+ALPHA_VANTAGE_API_KEY
+TWELVE_DATA_API_KEY
+PEXELS_API_KEY
+PIXABAY_API_KEY
+```
+
+After Render deploys, copy the backend URL and connect the frontend API base in `frontend/config.js`, or inject this snippet before `app.js`:
 
 ```html
 <script>
-window.TRADING_REELS_API_BASE = "https://your-worker.your-subdomain.workers.dev";
+window.TRADING_REELS_API_BASE = "https://your-render-service.onrender.com";
 </script>
 ```
+
+Never put API keys in frontend config. The value above is only a public API base URL.
 
 ## Important
 
@@ -356,6 +409,10 @@ python -m py_compile tools/prepare_pages_data.py
 python -m py_compile tools/generate_chart_configs.py
 python tools/review_lessons.py
 node --check frontend/app.js
+node --check backend/server.js
 node --check worker/src/index.js
+cd backend
+npm install
+npm run start-check
 git status --short
 ```
