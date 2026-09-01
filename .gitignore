@@ -26,3 +26,9 @@ __pycache__/
 !content/extracted/.gitkeep
 !content/extracted/book_images.json
 !content/extracted/book_image_matches.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
